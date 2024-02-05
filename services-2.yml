@@ -1,0 +1,36 @@
+version: "3"
+services:
+
+  app-invoice:
+    build:
+      context: ./app-invoice
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    ports:
+      - "8016:8006"
+    networks:
+      - distribuidos
+
+  app-pay:
+    build:
+      context: ./app-pay
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    ports:
+      - "8110:8010"
+    networks:
+      - distribuidos
+
+  app-transaction:
+    build:
+      context: ./app-transaction
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    ports:
+      - "8182:8082"
+    networks:
+      - distribuidos
+
+networks:
+  distribuidos:
+    external: true

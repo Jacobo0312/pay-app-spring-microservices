@@ -1,0 +1,16 @@
+version: '3'
+services:
+
+  loadbalancer:
+    build: 
+      context: ./haproxy
+      dockerfile: Dockerfile
+    ports:
+      - "9000:80"
+      - "1936:1936"
+    networks:
+      - distribuidos
+
+networks:
+  distribuidos:
+    external: true
