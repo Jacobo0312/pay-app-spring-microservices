@@ -1,0 +1,103 @@
+version: '3'
+services:
+
+  consul:
+    image: consul:1.15
+    command: agent -server -bootstrap-expect 1 -ui -data-dir /tmp -client=0.0.0.0
+    ports:
+      - "8500:8500"
+      - "8600:8600/udp"
+    networks:
+      - distribuidos
+
+  app-config:
+    build:
+      context: ./app-config
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    ports:
+      - "8888:8888"
+    networks:
+      - distribuidos
+    depends_on:
+      - consul
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: db_invoice
+    ports:
+      - "5432:5432"
+    networks:
+      - distribuidos
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: db_operation
+    ports:
+      - "3306:3306"
+    networks:
+      - distribuidos
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - distribuidos
+
+  servicekafka:
+    image: johnnypark/kafka-zookeeper
+    environment:
+      ADVERTISED_HOST: servicekafka
+      NUM_PARTITIONS: 3
+    ports:
+      - "2181:2181"
+      - "9092:9092"
+    networks:
+      - distribuidos
+
+  app-invoice:
+    build:
+      context: ./app-invoice
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    ports:
+      - "8006:8006"
+    networks:
+      - distribuidos
+    depends_on:
+      - postgres
+      - app-config
+
+  app-pay:
+    build:
+      context: ./app-pay
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    ports:
+      - "8010:8010"
+    networks:
+      - distribuidos
+    depends_on:
+      - mysql
+      - app-config
+
+  app-transaction:
+    build:
+      context: ./app-transaction
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    ports:
+      - "8082:8082"
+    networks:
+      - distribuidos
+    depends_on:
+      - mongodb
+      - app-config
+
+networks:
+  distribuidos:
