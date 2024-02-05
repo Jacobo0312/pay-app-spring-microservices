@@ -1,0 +1,17 @@
+version: '3'
+services:
+
+  servicekafka:
+    image: johnnypark/kafka-zookeeper
+    environment:
+      ADVERTISED_HOST: servicekafka
+      NUM_PARTITIONS: 3
+    ports:
+      - "2181:2181"
+      - "9092:9092"
+    networks:
+      - distribuidos
+
+networks:
+  distribuidos:
+    external: true

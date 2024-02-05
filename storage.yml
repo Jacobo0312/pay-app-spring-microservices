@@ -1,0 +1,35 @@
+version: '3'
+services:
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: db_invoice
+    ports:
+      - "5432:5432"
+    networks:
+      - distribuidos
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql
+      MYSQL_DATABASE: db_operation
+    ports:
+      - "3306:3306"
+    networks:
+      - distribuidos
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - distribuidos
+
+
+networks:
+  distribuidos:
+    external: true
+
