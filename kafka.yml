@@ -1,6 +1,5 @@
 version: '3'
 services:
-
   servicekafka:
     image: johnnypark/kafka-zookeeper
     environment:
@@ -9,6 +8,22 @@ services:
     ports:
       - "2181:2181"
       - "9092:9092"
+    networks:
+      - distribuidos
+
+  akhq:
+    image: tchiotludo/akhq
+    environment:
+      AKHQ_CONFIGURATION: |
+        akhq:
+          connections:
+            local:
+              properties:
+                bootstrap.servers: "servicekafka:9092"
+    ports:
+      - "8600:8080"
+    depends_on:
+      - servicekafka
     networks:
       - distribuidos
 

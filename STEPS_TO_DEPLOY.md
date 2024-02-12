@@ -18,4 +18,7 @@ docker-compose -p services -f services.yml up -d
 docker-compose -p services-2 -f services-2.yml up -d
 
 
+mysql -u root -p db_operation
+
+
 

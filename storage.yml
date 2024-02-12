@@ -5,19 +5,15 @@ services:
     build:
       context: ./resources/postgres
       dockerfile: Dockerfile
-    environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: db_invoice
     ports:
       - "5432:5432"
     networks:
       - distribuidos
 
   mysql:
-    image: mysql:latest
-    environment:
-      MYSQL_ROOT_PASSWORD: mysql
-      MYSQL_DATABASE: db_operation
+    build:
+      context: ./resources/mysql
+      dockerfile: Dockerfile
     ports:
       - "3306:3306"
     networks:
