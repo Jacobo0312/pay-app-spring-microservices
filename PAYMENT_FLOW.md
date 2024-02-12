@@ -38,7 +38,6 @@ SELECT * FROM pay;
 ```
 
 
-
 #### Update invoice state
 
 ```bash
