@@ -7,6 +7,8 @@ docker network create distribuidos
 docker-compose -p discovery-and-config-server -f discovery-config_server.yml up -d
 
 
+
+# Arreglar esto
 docker-compose -p storage -f storage.yml up -d
 
 docker-compose -p kafka -f kafka.yml up -d
