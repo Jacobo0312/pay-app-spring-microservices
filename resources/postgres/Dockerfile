@@ -1,6 +1,6 @@
-FROM postgres:12-alpine
+FROM postgres:latest
 
-env POSTGRES_PASSWORD=postgres
-env POSTGRES_DB=db_invoice
+ENV POSTGRES_PASSWORD=postgres
+ENV POSTGRES_DB=db_invoice
 COPY ./postgres.sql /docker-entrypoint-initdb.d
 
